@@ -20,6 +20,9 @@ struct ContentView: View {
             Divider()
             Footer()
             ColourPicker()
+            Button("Check") {
+                print("Checking")
+            }
         }
         .padding()
     }
@@ -39,34 +42,52 @@ struct Header: View {
 
 struct TurnRows: View {
 
-    private let rows = [1,2,3]
+    private let entryRows = [
+        Entries(entry1: .set(.red), entry2: .set(.red), entry3: .set(.red), entry4: .set(.red)),
+        Entries(entry1: .set(.red), entry2: .set(.red), entry3: .set(.red), entry4: .set(.blue))
+    ]
 
     var body: some View {
-        ForEach(rows.indices) { rowIndex in
-            TurnRow()
+        ForEach(entryRows) { entries in
+            TurnRow(entries: entries)
         }
     }
 }
 
 struct TurnRow: View {
 
+    let entries: Entries
+
     var body: some View {
         HStack {
-            Entry()
+            EntryRow(entries: entries)
             EntryCheck()
         }
     }
 }
 
+struct Entries: Identifiable {
+    let id = UUID()
+    let entry1: EntryState
+    let entry2: EntryState
+    let entry3: EntryState
+    let entry4: EntryState
 
-struct Entry: View {
+    var entryList: [EntryState] {
+        [entry1, entry2, entry3, entry4]
+    }
+}
+
+struct EntryRow: View {
+
+    var entries: Entries
 
     var body: some View {
         HStack {
-            Circle()
-            Circle()
-            Circle()
-            Circle()
+            EntryView(entry: entries.entry1)
+            EntryView(entry: entries.entry2)
+            EntryView(entry: entries.entry3)
+            EntryView(entry: entries.entry4)
         }
     }
 }
@@ -87,10 +108,17 @@ struct EntryCheck: View {
     }
 }
 
+enum EntryState {
+    case set(Color)
+    case unset
+}
+
 struct Footer: View {
 
+    let entries: Entries = .init(entry1: .unset, entry2: .unset, entry3: .unset, entry4: .unset)
+
     var body: some View {
-        Entry()
+        EntryRow(entries: entries)
     }
 }
 
@@ -105,16 +133,56 @@ struct ColourPicker: View {
     var body: some View {
         HStack {
             ForEach(colors) { color in
-                Circle()
-                    .fill(color)
-                    .stroke(
-                        Color.black,
-                        style: StrokeStyle(
-                            lineWidth: 1.0
-                        )
-                    )
+                Button(action: {
+                    print("hi")
+                }, label: {
+                    ColorEntry(color: color)
+                })
             }
         }
+    }
+}
+
+struct EntryView: View {
+
+    let entry: EntryState
+
+    var body: some View {
+        switch entry {
+        case .set(let color):
+            ColorEntry(color: color)
+        case .unset:
+            UnsetEntry()
+        }
+    }
+}
+
+struct UnsetEntry: View {
+
+    var body: some View {
+        Circle()
+            .stroke(
+                Color.black,
+                style: StrokeStyle(
+                    lineWidth: 1.0
+                )
+            )
+    }
+}
+
+struct ColorEntry: View {
+
+    let color: Color
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .stroke(
+                Color.black,
+                style: StrokeStyle(
+                    lineWidth: 1.0
+                )
+            )
     }
 }
 
