@@ -12,10 +12,13 @@ struct MastermindApp: App {
 
     let coordinator = GameCoordinator()
 
+    var gameState = GameState()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(coordinator)
+                .environment(\.gameState, gameState)
         }
     }
 }
@@ -24,6 +27,15 @@ struct MastermindApp: App {
 class GameCoordinator: Observable {
 
     func setCellColor(_ color: Color) {
-        print("hello")
+        print(color)
     }
+}
+
+struct GameState {
+
+    var footer: Entries = .init(entry1: .unset, entry2: .unset, entry3: .unset, entry4: .unset)
+}
+
+extension EnvironmentValues {
+    @Entry var gameState = GameState()
 }

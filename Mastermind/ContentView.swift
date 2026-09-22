@@ -115,10 +115,10 @@ enum EntryState {
 
 struct Footer: View {
 
-    let entries: Entries = .init(entry1: .unset, entry2: .unset, entry3: .unset, entry4: .unset)
+    @Environment(\.gameState) private var gameState
 
     var body: some View {
-        EntryRow(entries: entries)
+        EntryRow(entries: gameState.footer)
     }
 }
 
