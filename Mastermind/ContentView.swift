@@ -68,10 +68,10 @@ struct TurnRow: View {
 
 struct Entries: Identifiable {
     let id = UUID()
-    let entry1: EntryState
-    let entry2: EntryState
-    let entry3: EntryState
-    let entry4: EntryState
+    var entry1: EntryState
+    var entry2: EntryState
+    var entry3: EntryState
+    var entry4: EntryState
 
     var entryList: [EntryState] {
         [entry1, entry2, entry3, entry4]
@@ -80,7 +80,7 @@ struct Entries: Identifiable {
 
 struct EntryRow: View {
 
-    var entries: Entries
+    @State var entries: Entries
 
     var body: some View {
         HStack {
@@ -147,7 +147,7 @@ struct ColourPicker: View {
 
 struct EntryView: View {
 
-    let entry: EntryState
+    @State var entry: EntryState
 
     var body: some View {
         switch entry {

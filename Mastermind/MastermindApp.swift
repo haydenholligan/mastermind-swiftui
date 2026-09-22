@@ -10,9 +10,15 @@ import SwiftUI
 @main
 struct MastermindApp: App {
 
-    let coordinator = GameCoordinator()
+    var gameState: GameState
 
-    var gameState = GameState()
+    let coordinator: GameCoordinator
+
+    init() {
+        let gameState = GameState()
+        self.gameState = gameState
+        self.coordinator = GameCoordinator(gameState: gameState)
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -26,8 +32,18 @@ struct MastermindApp: App {
 
 class GameCoordinator: Observable {
 
+    var gameState: GameState
+
+    init(gameState: GameState) {
+        self.gameState = gameState
+    }
+
     func setCellColor(_ color: Color) {
-        print(color)
+        if case .unset = gameState.footer.entry1 {
+            print(":) gameState.footer.entry1=\(gameState.footer.entry1)")
+            gameState.footer.entry1 = .set(color)
+            print(":) gameState.footer.entry1=\(gameState.footer.entry1)")
+        }
     }
 }
 
