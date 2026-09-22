@@ -124,6 +124,8 @@ struct Footer: View {
 
 struct ColourPicker: View {
 
+    @Environment(GameCoordinator.self) private var gameCoordinator
+
     let colors: [Color] = [
         .red, .green, .blue,
         .yellow, .brown, .purple,
@@ -134,7 +136,7 @@ struct ColourPicker: View {
         HStack {
             ForEach(colors) { color in
                 Button(action: {
-                    print("hi")
+                    gameCoordinator.setCellColor(color)
                 }, label: {
                     ColorEntry(color: color)
                 })
