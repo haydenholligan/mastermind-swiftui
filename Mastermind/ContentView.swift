@@ -80,7 +80,7 @@ struct Entries: Identifiable {
 
 struct EntryRow: View {
 
-    @State var entries: Entries
+    let entries: Entries
 
     var body: some View {
         HStack {
@@ -108,7 +108,7 @@ struct EntryCheck: View {
     }
 }
 
-enum EntryState {
+enum EntryState: Equatable {
     case set(Color)
     case unset
 }
@@ -147,7 +147,7 @@ struct ColourPicker: View {
 
 struct EntryView: View {
 
-    @State var entry: EntryState
+    let entry: EntryState
 
     var body: some View {
         switch entry {

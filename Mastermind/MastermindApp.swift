@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct MastermindApp: App {
 
-    var gameState: GameState
+    @State private var gameState = GameState()
 
     let coordinator: GameCoordinator
 
@@ -47,7 +47,8 @@ class GameCoordinator: Observable {
     }
 }
 
-struct GameState {
+@Observable
+class GameState {
 
     var footer: Entries = .init(entry1: .unset, entry2: .unset, entry3: .unset, entry4: .unset)
 }
